@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "412414786269",
+    "firebase_url": "https://conatusapp.firebaseio.com",
+    "project_id": "conatusapp",
+    "storage_bucket": "conatusapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412414786269:android:11c40ecca605bc3e",
+        "android_client_info": {
+          "package_name": "com.example.money.conatusadminapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412414786269-vsdioa2vdp7oekglv7hikh2tm8cq6n8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFsouTrfszW1SekXplb8tjkXEC2tymvFY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
