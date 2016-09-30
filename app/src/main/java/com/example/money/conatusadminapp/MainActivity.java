@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mPostDescription = (EditText) findViewById(R.id.memberBranch);
         mSubmitButton = (Button) findViewById(R.id.submitbutton);
         mStorage = FirebaseStorage.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         mProgress = new ProgressDialog(this);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startUploading() {
-        String titleValue = mPostTitle.getText().toString().trim();
-        String description = mPostDescription.getText().toString().trim();
+        final String titleValue = mPostTitle.getText().toString().trim();
+        final String description = mPostDescription.getText().toString().trim();
         if (!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(description) && mImageUri != null) {
             mProgress.setMessage("Uploading........");
             mProgress.show();
@@ -93,7 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    DatabaseReference newPost = mDatabase.push();
+                    newPost.child("title").setValue(titleValue);
+                    newPost.child("desc").setValue(description);
+                    newPost.child("image").setValue(downloadUri.toString() );
                     mProgress.dismiss();
+                    Toast.makeText(MainActivity.this, "Uploaded Sucessfully.", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

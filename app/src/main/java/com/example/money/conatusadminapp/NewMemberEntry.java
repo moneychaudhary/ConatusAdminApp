@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,6 +37,7 @@ public class NewMemberEntry extends AppCompatActivity {
     private Uri mMemberImageUri;
     private StorageReference mStorage;
     private ProgressDialog mProgress;
+    private DatabaseReference mDatabase;
 
 
 
@@ -50,6 +53,7 @@ public class NewMemberEntry extends AppCompatActivity {
         mSubmit = (Button) findViewById(R.id.submit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mStorage = FirebaseStorage.getInstance().getReference();
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("members");
         mProgress = new ProgressDialog(this);
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,10 +76,10 @@ public class NewMemberEntry extends AppCompatActivity {
     }
 
     private void startUploading() {
-        String name = mName.getText().toString().trim();
-        String branch = mBranch.getText().toString().trim();
-        String year = mYear.getText().toString().trim();
-        String domain = mDomain.getText().toString().trim();
+        final String name = mName.getText().toString().trim();
+        final String branch = mBranch.getText().toString().trim();
+        final String year = mYear.getText().toString().trim();
+        final String domain = mDomain.getText().toString().trim();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(branch) && (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(domain) &&mMemberImageUri != null)) {
             mProgress.setMessage("Uploading........");
             mProgress.show();
@@ -85,7 +89,14 @@ public class NewMemberEntry extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    DatabaseReference newMember = mDatabase.push();
+                    newMember.child("name").setValue(name);
+                    newMember.child("branch").setValue(branch);
+                    newMember.child("year").setValue(year);
+                    newMember.child("domain").setValue(domain);
+                    newMember.child("image").setValue(downloadUri.toString());
                     mProgress.dismiss();
+                    Toast.makeText(NewMemberEntry.this, "Uploaded Sucessfully.", Toast.LENGTH_LONG).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
