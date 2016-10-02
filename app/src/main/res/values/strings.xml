@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">ConatusAdmin</string>
+    <string name="app_name">Conatus Admin </string>
+
+    <string-array name="branch">
+        <item>Computer Science</item>
+        <item>Information Technology</item>
+    </string-array>
+    <string-array name="post">
+        <item>Article</item>
+        <item>BirthDay Post</item>
+        <item>Festival Post</item>
+    </string-array>
+
+    <string-array name="domain">
+        <item>Web Developer</item>
+        <item>Designer</item>
+        <item>Mobile App Developer</item>
+        <item>Back End Developer</item>
+        <item>Front End Developer</item>
+        <item>Full Stack Developer</item>
+    </string-array>
+
+    <string-array name="year">
+        <item>Second Year</item>
+        <item>Third Year</item>
+        <item>Fourth Year</item>
+    </string-array>
 </resources>

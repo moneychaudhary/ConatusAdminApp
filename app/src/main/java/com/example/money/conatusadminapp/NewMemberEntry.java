@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.drawable.RippleDrawable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,9 +31,9 @@ import java.util.UUID;
 public class NewMemberEntry extends AppCompatActivity {
     private ImageButton mMemberImageButton;
     private EditText mName;
-    private EditText mBranch;
-    private EditText mYear;
-    private EditText mDomain;
+    private Spinner mBranch;
+    private Spinner mYear;
+    private Spinner mDomain;
     private Button mSubmit;
     private static final int REQUEST_CODE = 112;
     private Uri mMemberImageUri;
@@ -47,11 +49,12 @@ public class NewMemberEntry extends AppCompatActivity {
         setContentView(R.layout.activity_new_member_entry);
         mMemberImageButton = (ImageButton) findViewById(R.id.uploadMemberImageButton);
         mName = (EditText) findViewById(R.id.memberNameField);
-        mYear = (EditText) findViewById(R.id.memberYear);
-        mBranch = (EditText) findViewById(R.id.memberBranch);
-        mDomain = (EditText) findViewById(R.id.domain);
+        mYear = (Spinner) findViewById(R.id.memberYear);
+        mBranch = (Spinner) findViewById(R.id.memberBranch);
+        mDomain = (Spinner) findViewById(R.id.domain);
         mSubmit = (Button) findViewById(R.id.submit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("New Member Entry");
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase= FirebaseDatabase.getInstance().getReference().child("members");
         mProgress = new ProgressDialog(this);
@@ -77,9 +80,9 @@ public class NewMemberEntry extends AppCompatActivity {
 
     private void startUploading() {
         final String name = mName.getText().toString().trim();
-        final String branch = mBranch.getText().toString().trim();
-        final String year = mYear.getText().toString().trim();
-        final String domain = mDomain.getText().toString().trim();
+        final String branch = mBranch.getSelectedItem().toString().trim();
+        final String year = mYear.getSelectedItem().toString().trim();
+        final String domain = mDomain.getSelectedItem().toString().trim();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(branch) && (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(domain) &&mMemberImageUri != null)) {
             mProgress.setMessage("Uploading........");
             mProgress.show();
@@ -120,8 +123,13 @@ public class NewMemberEntry extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       if(item.getItemId()== android.R.id.home)
+       {
+           super.onBackPressed();
+       }
+        return super.onOptionsItemSelected(item);
 
-
-
-
+    }
 }

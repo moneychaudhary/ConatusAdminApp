@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_starting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f4f4"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.money.conatusadminapp.StartingActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/add_post"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="Add a Post"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/add_member"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="Team Member"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_mentor"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="New Mentor"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/gallery_entry"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="Gallery"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/magazine_entry"
+        android:background="@drawable/button_background"
+        android:padding="15dp"
+        android:text="Magazines"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

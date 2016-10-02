@@ -7,11 +7,16 @@
     android:orientation="vertical"
     android:weightSum="1"
     tools:context="com.example.money.conatusadminapp.MainActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <ImageButton
         android:id="@+id/uploadMemberImageButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:adjustViewBounds="true"
         android:background="@drawable/add_btn"
         android:scaleType="centerCrop" />
@@ -29,7 +34,8 @@
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
-    <EditText
+    <Spinner
+        android:entries="@array/branch"
         android:id="@+id/memberBranch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,12 +46,11 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/background"
-        android:hint="Enter Branch"
-        android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
+    <Spinner
         android:id="@+id/memberYear"
+        android:entries="@array/year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -55,12 +60,11 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/background"
-        android:hint="Year"
-        android:inputType="number"
         android:padding="10dp" />
 
-    <EditText
+    <Spinner
         android:id="@+id/domain"
+        android:entries="@array/domain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -70,8 +74,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/background"
-        android:hint="Domain"
-        android:inputType="text"
         android:padding="10dp" />
 
     <EditText
@@ -90,4 +92,5 @@
         android:padding="10dp" />
 
 
+</RelativeLayout>
 </RelativeLayout>

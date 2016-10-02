@@ -10,9 +10,11 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton mImageButton;
     private EditText mPostTitle;
     private EditText mPostDescription;
+    private Spinner mPostType;
+    private EditText mSubHeading;
     private Button mSubmitButton;
     private static final int REQUEST = 111;
     private Uri mImageUri;
@@ -38,37 +42,43 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.addmember)
-        {
-            Intent intent= new Intent(this,NewMemberEntry.class);
-            startActivity(intent);
-        }
-        return true;
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mImageButton = (ImageButton) findViewById(R.id.uploadMemberImageButton);
-        mPostTitle = (EditText) findViewById(R.id.memberNameField);
-        mPostDescription = (EditText) findViewById(R.id.memberBranch);
+        mImageButton = (ImageButton) findViewById(R.id.uploadPostImage);
+        mPostTitle = (EditText) findViewById(R.id.title);
+        mSubHeading= (EditText) findViewById(R.id.sub_heading);
+        mPostType= (Spinner) findViewById(R.id.post_type);
+        mPostDescription = (EditText) findViewById(R.id.content);
         mSubmitButton = (Button) findViewById(R.id.submitbutton);
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mProgress = new ProgressDialog(this);
+        mPostType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=0)
+                {
+                    mPostDescription.setText("null");
+                    mPostDescription.setVisibility(View.GONE);
+                }
+                else
+                {
+                    mPostDescription.setText("");
+                    mPostDescription.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startUploading();
             }
         });
@@ -83,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home)
+        {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void startUploading() {
