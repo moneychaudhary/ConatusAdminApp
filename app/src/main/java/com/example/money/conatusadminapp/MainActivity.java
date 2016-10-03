@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
+
+import static java.util.Calendar.MONDAY;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton mImageButton;
@@ -54,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("New Post");
+
+
+
+
 
         mProgress = new ProgressDialog(this);
         mPostType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,21 +116,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startUploading() {
+        Calendar cal = Calendar.getInstance();
+        int dd = cal.get(Calendar.DATE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int minute = cal.get(Calendar.MINUTE);
+        int hour = cal.get(Calendar.HOUR);
+        String ampm = DateUtils.getAMPMString(cal.get(Calendar.AM_PM));
+
+
         final String titleValue = mPostTitle.getText().toString().trim();
         final String description = mPostDescription.getText().toString().trim();
+        final String subHeading = mSubHeading.getText().toString().trim();
+        final String time=hour+":"+minute+""+ampm;;
+        final String date=dd+"/"+month+"/"+year;
         if (!TextUtils.isEmpty(titleValue) && !TextUtils.isEmpty(description) && mImageUri != null) {
             mProgress.setMessage("Uploading........");
             mProgress.show();
             String uuid = UUID.randomUUID().toString();
-            StorageReference filePath = mStorage.child("post_Images").child(uuid);
+            final StorageReference filePath = mStorage.child("post_Images").child(uuid);
             filePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     DatabaseReference newPost = mDatabase.push();
                     newPost.child("title").setValue(titleValue);
+                    newPost.child("subhead").setValue(subHeading);
+                    newPost.child("time").setValue(time);
+                    newPost.child("date").setValue(date);
                     newPost.child("desc").setValue(description);
-                    newPost.child("image").setValue(downloadUri.toString() );
+                    newPost.child("image").setValue(filePath.getPath() );
                     mProgress.dismiss();
                     Toast.makeText(MainActivity.this, "Uploaded Sucessfully.", Toast.LENGTH_LONG).show();
                 }

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.money.conatusadminapp.MagazineGaller.CreateNewEntryActivity;
+import com.example.money.conatusadminapp.MagazineGaller.ListofMagazineAndGalleyActivity;
+
 public class StartingActivity extends AppCompatActivity {
     private Button addPostButton;
     private Button addMemberButton;
@@ -47,13 +50,16 @@ public class StartingActivity extends AppCompatActivity {
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent= CreateNewEntryActivity.getCreateEntryActivityIntent(StartingActivity.this,"gallery");
+                startActivity(intent);
 
             }
         });
         magazineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=ListofMagazineAndGalleyActivity.getMyIntent(StartingActivity.this,"magazine","Magazines");
+                startActivity(intent);
             }
         });
     }
